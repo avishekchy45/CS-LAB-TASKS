@@ -1,0 +1,25 @@
+PROGRAM program0
+  VAR
+    TOF0 : TOF;
+    TOF1 : TOF;
+    INPUT_1 : BOOL;
+    MOTOR_1 : BOOL;
+    MOTOR_2 : BOOL;
+    LAMP : BOOL;
+  END_VAR
+
+  TOF0(IN := NOT(INPUT_1), PT := T#5s);
+  MOTOR_1 := TOF0.Q;
+  TOF1(IN := NOT(INPUT_1), PT := T#7s);
+  MOTOR_2 := TOF1.Q;
+  LAMP := MOTOR_1;
+END_PROGRAM
+
+
+CONFIGURATION Config0
+
+  RESOURCE Res0 ON PLC
+    TASK task0(INTERVAL := T#20ms,PRIORITY := 0);
+    PROGRAM instance0 WITH task0 : program0;
+  END_RESOURCE
+END_CONFIGURATION
